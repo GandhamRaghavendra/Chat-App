@@ -20,12 +20,14 @@ public class Channel {
 	private String name;
 
 	private String description;
+	
+	private boolean isPrivate;
 
 	// Additional channel attributes
 
 	// Relationships
 	// Many-to-One: Channel belongs to a workspace
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Workspace workspace;
 
 	// Many-to-Many: Many users can be members of the channel

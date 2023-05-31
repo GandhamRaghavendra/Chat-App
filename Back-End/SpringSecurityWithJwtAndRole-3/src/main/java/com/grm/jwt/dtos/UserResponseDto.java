@@ -1,7 +1,10 @@
-package com.grm.jwt.Dtos;
+package com.grm.jwt.dtos;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.grm.jwt.model.Role;
 import com.grm.jwt.model.User;
 
 import lombok.AllArgsConstructor;
@@ -16,17 +19,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class UserResponseDto {
+	private Long id;
 	private String name;
 	private String jwt;
 	private LocalDateTime jwtCreatedTime;
 	private LocalDateTime jwtValidTill;
+	private Set<Role> roles = new HashSet<>();
 	
-	public static UserResponseDto getUserRegiserDtoFromUser(User user) {
+	public static UserResponseDto getUserResponseDtoFromUser(User user) {
 		UserResponseDto res = UserResponseDto.builder()
+				                 .id(user.getId())
 		                         .name(user.getUsername())
 		                         .jwt(user.getJwt())
 		                         .jwtCreatedTime(user.getJwtGeneratedTimestamp())
 		                         .jwtValidTill(user.getJwtValidTill())
+		                         .roles(user.getRoles())
 		                         .build();
 		
 		return res;

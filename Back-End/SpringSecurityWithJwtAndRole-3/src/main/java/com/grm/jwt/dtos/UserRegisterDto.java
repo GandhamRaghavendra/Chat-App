@@ -1,4 +1,4 @@
-package com.grm.jwt.Dtos;
+package com.grm.jwt.dtos;
 
 import com.grm.jwt.model.Role;
 import com.grm.jwt.model.RoleName;

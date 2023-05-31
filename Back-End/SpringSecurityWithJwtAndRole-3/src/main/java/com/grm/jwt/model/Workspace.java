@@ -1,6 +1,9 @@
 package com.grm.jwt.model;
 
 import java.util.List;
+
+import com.grm.jwt.dtos.WorkspaceDto;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +24,8 @@ public class Workspace {
 
     private String description;
     
+    private boolean isPrivate;
+    
     // Relationships
     // Many-to-Many: Many users can be members of the workspace
     @ManyToMany
@@ -30,8 +35,15 @@ public class Workspace {
     private List<User> members;
 
     // One-to-Many: Workspace can have multiple channels
-    @OneToMany(mappedBy = "workspace")
+    @OneToMany(mappedBy = "workspace",cascade = CascadeType.ALL)
     private List<Channel> channels;
 
-    // Constructors, getters, setters
+    public WorkspaceDto getWorkspaceDto(Workspace en) {
+    	return WorkspaceDto.builder()
+		    	                     .id(en.getId())
+		    	                     .name(en.getName())
+		    	                     .desc(en.getDescription())
+		    	                     .isPrivate(en.isPrivate)
+		    	                     .build();
+    }
 }

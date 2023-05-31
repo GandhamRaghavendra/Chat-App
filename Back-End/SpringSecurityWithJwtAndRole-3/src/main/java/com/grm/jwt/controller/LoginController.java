@@ -9,8 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grm.jwt.Dtos.UserResponseDto;
 import com.grm.jwt.config.SecurityConstants;
+import com.grm.jwt.dtos.UserResponseDto;
 import com.grm.jwt.model.User;
 import com.grm.jwt.repo.UserRepo;
 import com.grm.jwt.service.UserService;
@@ -40,7 +40,7 @@ public class LoginController {
 		
 		user = userService.setJwtToUserByName(user, jwt);
 		
-		UserResponseDto res = UserResponseDto.getUserRegiserDtoFromUser(user);
+		UserResponseDto res = UserResponseDto.getUserResponseDtoFromUser(user);
 
 		return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
 	}
