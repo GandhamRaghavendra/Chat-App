@@ -35,7 +35,7 @@ public class Workspace {
     private List<User> members;
 
     // One-to-Many: Workspace can have multiple channels
-    @OneToMany(mappedBy = "workspace",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "workspace",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     private List<Channel> channels;
 
     public WorkspaceDto getWorkspaceDto(Workspace en) {

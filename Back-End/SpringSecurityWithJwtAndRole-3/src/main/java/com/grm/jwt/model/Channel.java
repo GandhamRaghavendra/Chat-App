@@ -1,8 +1,12 @@
 package com.grm.jwt.model;
 
 import java.util.List;
+
+import com.grm.jwt.dtos.ChannelDto;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Channel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +32,7 @@ public class Channel {
 
 	// Relationships
 	// Many-to-One: Channel belongs to a workspace
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
 	private Workspace workspace;
 
 	// Many-to-Many: Many users can be members of the channel
@@ -39,5 +44,13 @@ public class Channel {
 	@OneToMany(mappedBy = "channel")
 	private List<Message> messages;
 
-	// Constructors, getters, setters
+    public ChannelDto getChannelDtoByEntity(Channel channel) {
+        ChannelDto dto = ChannelDto.builder()
+                           .id(channel.getId())
+                           .name(channel.getName())
+                           .description(channel.getDescription())
+                           .isPrivate(channel.isPrivate())
+                           .build();
+       return dto;      
+    }
 }

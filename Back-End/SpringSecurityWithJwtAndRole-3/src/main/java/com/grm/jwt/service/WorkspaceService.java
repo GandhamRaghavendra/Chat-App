@@ -13,4 +13,8 @@ public interface WorkspaceService {
 	List<WorkspaceDto> getAllWorkspace();
 	
 	List<WorkspaceDto> getAllPublicWorkspace();
+	
+	String addUserToWorkspaceForAdmin(Long userId,Long worksId);
+	
+	String removeUserFromWorkspaceById(Long userId,Long worksId);
 }

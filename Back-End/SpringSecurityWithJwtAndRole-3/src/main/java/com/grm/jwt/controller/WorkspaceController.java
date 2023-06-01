@@ -78,4 +78,20 @@ public class WorkspaceController {
     	 
     	 return new ResponseEntity<String>("Done",HttpStatus.OK);
     }
+    
+    @PostMapping("/{wId}/{uId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    public ResponseEntity<String> addUserToWorkspaceById(@PathVariable Long wId,@PathVariable Long uId){
+    	String res = workspaceService.addUserToWorkspaceForAdmin(uId, wId);
+    	
+    	return new ResponseEntity<String>(res,HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/{wId}/{uId}")
+    public ResponseEntity<String> removeUserFromWorkspaceById(@PathVariable Long wId,@PathVariable Long uId){
+    	String res = workspaceService.removeUserFromWorkspaceById(uId, wId);
+
+    	return new ResponseEntity<String>(res,HttpStatus.OK);
+    }
+    
 }
