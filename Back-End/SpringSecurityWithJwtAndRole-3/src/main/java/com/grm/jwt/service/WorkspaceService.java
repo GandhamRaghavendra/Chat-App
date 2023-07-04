@@ -2,6 +2,8 @@ package com.grm.jwt.service;
 
 import java.util.List;
 
+import com.grm.jwt.dtos.ChannelDto;
+import com.grm.jwt.dtos.UserResponseDto;
 import com.grm.jwt.dtos.WorkspaceDto;
 
 public interface WorkspaceService {
@@ -17,4 +19,8 @@ public interface WorkspaceService {
 	String addUserToWorkspaceForAdmin(Long userId,Long worksId);
 	
 	String removeUserFromWorkspaceById(Long userId,Long worksId);
+	
+	List<UserResponseDto> getAllUsersByWorkspaceId(Long wId);
+	
+	List<ChannelDto> getAllChannelsByWorkspaceId(Long wId);
 }

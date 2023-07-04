@@ -2,12 +2,14 @@ package com.grm.jwt.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.grm.jwt.dtos.ChannelDto;
+import com.grm.jwt.dtos.UserResponseDto;
 import com.grm.jwt.dtos.WorkspaceDto;
 import com.grm.jwt.exception.UserException;
 import com.grm.jwt.exception.WorkspaceException;
+import com.grm.jwt.model.Channel;
 import com.grm.jwt.model.User;
 import com.grm.jwt.model.Workspace;
 import com.grm.jwt.repo.UserRepo;
@@ -68,7 +70,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
 		Workspace workspace = workspaceRepo.findById(worksId)
 				.orElseThrow(() -> new WorkspaceException("No workspace exist with this id " + worksId));
-
+		
+		if(checkUserPresentInWorkspace(workspace.getMembers(), user)) throw new WorkspaceException("User already present!");
+			
 		user.getWorkspaces().add(workspace);
 
 		workspace.getMembers().add(user);
@@ -85,6 +89,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
 		Workspace workspace = workspaceRepo.findById(worksId)
 				.orElseThrow(() -> new WorkspaceException("No workspace exist with this id " + worksId));
+		
+		if(!checkUserPresentInWorkspace(workspace.getMembers(), user)) throw new WorkspaceException("User not present!");
 
 		user.getWorkspaces().remove(workspace);
 		
@@ -95,5 +101,36 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 	    workspaceRepo.save(workspace);
 	    
 	    return "User with id : " + userId + " removed from workspace with name : " + workspace.getName();
+	}
+	
+	public boolean checkUserPresentInWorkspace(List<User> list, User user) {
+		return list.contains(user);
+	}
+
+	@Override
+	public List<UserResponseDto> getAllUsersByWorkspaceId(Long wId) {
+		
+		Workspace workspace = workspaceRepo.findById(wId)
+				.orElseThrow(() -> new WorkspaceException("No workspace exist with this id " + wId));
+		
+		List<User> list = workspace.getMembers();
+		
+		
+		 return list.stream()
+						    .map(u -> UserResponseDto.getUserResponseDtoFromUser(u))
+						    .collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ChannelDto> getAllChannelsByWorkspaceId(Long wId) {
+		
+		Workspace workspace = workspaceRepo.findById(wId)
+				.orElseThrow(() -> new WorkspaceException("No workspace exist with this id " + wId));
+		
+		List<Channel> list = workspace.getChannels();
+		
+		return list.stream()
+				   .map(cha -> cha.getChannelDtoByEntity(cha))
+				   .collect(Collectors.toList());
 	}
 }
