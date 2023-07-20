@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.grm.jwt</groupId>
-	<artifactId>SpringSecurityWithJwtAndRole-3</artifactId>
+	<artifactId>ChatApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SpringSecurityWithJwtAndRole-3</name>
 	<description>Demo project with SpringSecrity, Jwt and RoleBased</description>
